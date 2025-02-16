@@ -34,9 +34,14 @@ const Header = () => {
             <Link to="/transactionpage" className="text-gray-600 hover:text-gray-800">
               Transaction
             </Link>
-            <a href="#Pricing" className="text-gray-600 hover:text-gray-800">My Goals</a>
-            <a href="#Features" className="text-gray-600 hover:text-gray-800">Budgeting</a>
-            <a href="#Features" className="text-gray-600 hover:text-gray-800">Reminders</a>
+            <Link to='/analytics' className="text-gray-600 hover:text-gray-800">
+            Analytics
+            </Link> 
+            <Link to='/budgeting' className="text-gray-600 hover:text-gray-800">Budgeting</Link>
+            <Link to='/goalpage' className="text-gray-600 hover:text-gray-800">My Goals</Link>
+            <Link to='/debtpage' className="text-gray-600 hover:text-gray-800">Debt Tracker</Link>
+            <Link to='/subscriptionPage' className="text-gray-600 hover:text-gray-800">Subscription</Link>
+            
           </nav>
         </div>
 

@@ -12,7 +12,7 @@ const TransactionPage = () => {
     const [showModal, setshowModal] = useState(false)
     const [loading, setLoading] = useState(false)
     const [allTransaction, setAllTransaction] = useState([])
-    const [filter, setFilter] = useState('7');
+    const [filter, setFilter] = useState('365');
     const [selectedDate, setSelected] = useState([]);
     const [type, setType] = useState('all')
     const [edittable, setEdittable] = useState(null)
@@ -148,7 +148,9 @@ const TransactionPage = () => {
 
     return (
         <>
-            <Header2 />
+        <nav>
+        <Header2 />
+        </nav>
             {loading && (<div className="absolute top-10 left-1/2 transform -translate-x-1/2">
                 <Spinner />
             </div>)}
