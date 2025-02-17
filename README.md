@@ -84,7 +84,7 @@ Contributions are welcome! Please follow these steps:
 5. Open a pull request
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the ISC License.
 
 ## Contact
 For any queries, reach out to:
