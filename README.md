@@ -45,7 +45,6 @@ Bloom is a personal finance management web application designed to help users tr
    - Create a `.env` file in the backend folder and add:
      ```env
      MONGO_URI=your_mongodb_connection_string
-     JWT_SECRET=your_secret_key
      ```
 4. Start the backend server:
    ```sh
