@@ -1,116 +1,166 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Select, Input, message, Table, DatePicker } from 'antd';
-import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import { Button, Modal, Form, Input, message, Progress, Checkbox, DatePicker, Select } from 'antd';
 import axios from 'axios';
-import moment from 'moment';
 import Header2 from '../Layouts/Header2';
+import Spinner from "../Layouts/Spinner";
+import moment from 'moment';
+
+const { Option } = Select;
 
 const DebtPage = () => {
-    const [showModal, setShowModal] = useState(false);
+    const [debts, setDebts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [allDebts, setAllDebts] = useState([]);
-    const [editable, setEditable] = useState(null);
-
-    const columns = [
-        { title: 'Debt Name', dataIndex: 'debtName' },
-        { title: 'Lender', dataIndex: 'lender' },
-        { title: 'Debt Type', dataIndex: 'debtType' },
-        { title: 'Total Amount', dataIndex: 'totalAmount', render: (text) => `$${text}` },
-        { title: 'Remaining Balance', dataIndex: 'remainingBalance', render: (text) => `$${text}` },
-        { title: 'Account', dataIndex: 'account' },
-        { title: 'Amount Paid', dataIndex: 'amountPaid', render: (text) => `$${text}` },
-        { title: 'Percentage Paid', dataIndex: 'percentagePaid', render: (text) => `${text}%` },
-        { title: 'Interest Rate (%)', dataIndex: 'interestRate' },
-        { title: 'Last Payback Date', dataIndex: 'lastPaybackDate', render: (text) => moment(text).format('YYYY-MM-DD') },
-        { title: 'Next Payment Due', dataIndex: 'nextPaymentDue', render: (text) => moment(text).format('YYYY-MM-DD') },
-        { title: 'Remaining Days', dataIndex: 'remainingDays', render: (text) => `${text} Days Left` },
-        {
-            title: 'Actions',
-            render: (text, record) => (
-                <div className='flex gap-2'>
-                    <AiOutlineEdit size={24} color='green' onClick={() => {
-                        setEditable(record);
-                        setShowModal(true);
-                    }} />
-                    <AiOutlineDelete size={24} color='red' onClick={() => handleDelete(record)} />
-                </div>
-            )
-        },
-    ];
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [editingDebt, setEditingDebt] = useState(null);
+    const [form] = Form.useForm();
 
     useEffect(() => {
-        const getAllDebts = async () => {
-            try {
-                const user = JSON.parse(localStorage.getItem('user'));
-                setLoading(true);
-                const res = await axios.post('/debts/get-debts', { userId: user._id });
-                setLoading(false);
-                setAllDebts(res.data);
-            } catch (error) {
-                setLoading(false);
-                message.error('Failed to fetch debts');
-            }
-        };
-        getAllDebts();
+        fetchDebts();
     }, []);
 
-    const handleDelete = async (record) => {
+    const fetchDebts = async () => {
         try {
             setLoading(true);
-            await axios.post('/debts/delete-debt', { debtId: record._id });
-            setLoading(false);
-            message.success('Debt deleted successfully');
+            const user = JSON.parse(localStorage.getItem("user"));
+            const res = await axios.post('/debts/get-debts', { userId: user._id });
+            setDebts(res.data);
         } catch (error) {
+            message.error("Failed to fetch debts");
+        } finally {
             setLoading(false);
-            message.error('Unable to delete debt');
         }
     };
 
-    const handleSubmit = async (values) => {
+    const handleAddOrUpdateDebt = async (values) => {
         try {
-            const user = JSON.parse(localStorage.getItem('user'));
             setLoading(true);
-            if (editable) {
-                await axios.post('/debts/edit-debt', { payload: { ...values, userId: user._id }, debtId: editable._id });
-                message.success('Debt Updated Successfully');
+            const user = JSON.parse(localStorage.getItem("user"));
+            const debtData = {
+                userId: user._id,
+                name: values.name,
+                totalAmount: parseFloat(values.totalAmount),
+                paidAmount: parseFloat(values.paidAmount),
+                dueDate: values.dueDate ? values.dueDate.format("YYYY-MM-DD") : null,
+                category: values.category,
+                status: values.status || "Ongoing",
+            };
+
+            if (editingDebt) {
+                await axios.put('/debts/update-debt', { debtId: editingDebt._id, ...debtData });
+                message.success("Debt updated successfully");
             } else {
-                await axios.post('/debts/add-debt', { ...values, userId: user._id });
-                message.success('Debt Added Successfully');
+                await axios.post('/debts/add-debt', debtData);
+                message.success("Debt added successfully");
             }
-            setShowModal(false);
-            setEditable(null);
-            setLoading(false);
+
+            setIsModalVisible(false);
+            setEditingDebt(null);
+            form.resetFields();
+            fetchDebts();
         } catch (error) {
+            message.error("Failed to save debt");
+        } finally {
             setLoading(false);
-            message.error('Failed to add/edit debt');
+        }
+    };
+
+    const handleEditDebt = (debt) => {
+        setEditingDebt(debt);
+        form.setFieldsValue({
+            ...debt,
+            dueDate: debt.dueDate ? moment(debt.dueDate) : null,
+        });
+        setIsModalVisible(true);
+    };
+
+    const handleDeleteDebt = async (debtId) => {
+        try {
+            setLoading(true);
+            await axios.delete(`/debts/delete-debt/${debtId}`);
+            message.success("Debt deleted successfully");
+            fetchDebts();
+        } catch (error) {
+            message.error("Failed to delete debt");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <>
-        <nav>
-        <Header2 />
-        </nav>
-            
-            <div className='flex justify-end p-4'>
-                <button className='bg-blue-500 text-white py-2 px-4 rounded' onClick={() => setShowModal(true)}>Add Debt</button>
+            <nav>
+                <Header2 />
+            </nav>
+            {loading && <Spinner />}
+            <div className="p-4">
+                <h2 className="text-xl font-bold mb-4">💰 Debts</h2>
+
+                <div className="flex flex-wrap gap-4 mt-4">
+                    {debts.length > 0 ? (
+                        debts.map((debt) => (
+                            <div key={debt._id} className="bg-white shadow-lg p-4 rounded-lg text-black w-60">
+                                <h3 className="text-lg font-semibold">{debt.name}</h3>
+                                <p>💰 Total Amount: ₹{debt.totalAmount.toFixed(2)}</p>
+                                <p>✅ Paid Amount: ₹{debt.paidAmount.toFixed(2)}</p>
+                                <p>📅 Due Date: {debt.dueDate ? moment(debt.dueDate).format("YYYY-MM-DD") : "Not set"}</p>
+                                <p>📂 Category: {debt.category}</p>
+
+                                <Progress percent={(debt.paidAmount / debt.totalAmount) * 100} />
+
+                                <div className="mt-2 flex gap-2">
+                                    <Button type="primary" onClick={() => handleEditDebt(debt)}>✏️ Edit</Button>
+                                    <Button type="primary" danger onClick={() => handleDeleteDebt(debt._id)}>🗑️ Delete</Button>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-gray-500">No debts added yet.</p>
+                    )}
+                </div>
+                
+                <Button className='mt-4' type="primary" onClick={() => setIsModalVisible(true)}>
+                    ➕ {editingDebt ? "Edit Debt" : "Add Debt"}
+                </Button>
+
+
+                <Modal
+                    title={editingDebt ? "Edit Debt" : "Add Debt"}
+                    open={isModalVisible}
+                    onCancel={() => {
+                        setIsModalVisible(false);
+                        setEditingDebt(null);
+                        form.resetFields();
+                    }}
+                    footer={null}
+                >
+                    <Form form={form} layout="vertical" onFinish={handleAddOrUpdateDebt}>
+                        <Form.Item name="name" label="Debt Name" rules={[{ required: true }]}>
+                            <Input />
+                        </Form.Item>
+                        <Form.Item name="totalAmount" label="Total Amount" rules={[{ required: true }]}>
+                            <Input type="number" min={0} />
+                        </Form.Item>
+                        <Form.Item name="paidAmount" label="Paid Amount">
+                            <Input type="number" min={0} />
+                        </Form.Item>
+                        <Form.Item name="dueDate" label="Due Date">
+                            <DatePicker className="w-full" />
+                        </Form.Item>
+                        <Form.Item name="category" label="Category" rules={[{ required: true }]}>
+                            <Select>
+                                <Option value="Loan">Loan</Option>
+                                <Option value="Credit Card">Credit Card</Option>
+                                <Option value="Mortgage">Mortgage</Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                {editingDebt ? "Update Debt" : "Add Debt"}
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Modal>
             </div>
-            <Table columns={columns} dataSource={allDebts} rowKey='_id' />
-            <Modal title={editable ? 'Edit Debt' : 'Add Debt'} open={showModal} onCancel={() => setShowModal(false)} footer={null}>
-                <Form layout='vertical' onFinish={handleSubmit} initialValues={editable}>
-                    <Form.Item label='Debt Name' name='debtName'><Input /></Form.Item>
-                    <Form.Item label='Lender' name='lender'><Input /></Form.Item>
-                    <Form.Item label='Debt Type' name='debtType'><Select><Select.Option value='Loan'>Loan</Select.Option><Select.Option value='Mortgage'>Mortgage</Select.Option><Select.Option value='Credit Card'>Credit Card</Select.Option></Select></Form.Item>
-                    <Form.Item label='Total Amount' name='totalAmount'><Input type='number' /></Form.Item>
-                    <Form.Item label='Remaining Balance' name='remainingBalance'><Input type='number' /></Form.Item>
-                    <Form.Item label='Account' name='account'><Input /></Form.Item>
-                    <Form.Item label='Amount Paid' name='amountPaid'><Input type='number' /></Form.Item>
-                    <Form.Item label='Interest Rate (%)' name='interestRate'><Input type='number' /></Form.Item>
-                    <Form.Item label='Last Payback Date' name='lastPaybackDate'><DatePicker /></Form.Item>
-                    <Form.Item label='Next Payment Due' name='nextPaymentDue'><DatePicker /></Form.Item>
-                    <div className='flex justify-end'><button className='bg-green-500 text-white py-2 px-4 rounded' type='submit'>Save</button></div>
-                </Form>
-            </Modal>
         </>
     );
 };

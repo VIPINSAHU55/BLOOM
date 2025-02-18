@@ -98,9 +98,9 @@ const SubscriptionPage = () => {
     const columns = [
         { title: 'Name', dataIndex: 'name' },
         { title: 'Billing', dataIndex: 'billingCycle' },
-        { title: 'Cost', dataIndex: 'cost', render: text => `$${text.toFixed(2)}` },
+        { title: 'Cost', dataIndex: 'cost', render: text => `₹${text.toFixed(2)}` },
         { title: 'Next Renewal', dataIndex: 'nextRenewal', render: text => moment(text).format('MMMM D, YYYY') },
-        { title: 'Yearly Cost', dataIndex: 'yearlyCost', render: text => `$${text.toFixed(2)}` },
+        { title: 'Yearly Cost', dataIndex: 'yearlyCost', render: text => `₹${text.toFixed(2)}` },
         { title: 'Due', dataIndex: 'dueStatus', render: text => <span style={{ color: text === 'Overdue' ? 'red' : 'green' }}>{text}</span> },
         {
             title: 'Actions',
@@ -131,7 +131,12 @@ const SubscriptionPage = () => {
                     Add Subscription
                 </Button>
 
-                <Table columns={columns} dataSource={subscriptions} loading={loading} rowKey='_id' />
+                <Table 
+                className='overflow-x-auto'
+                columns={columns} 
+                dataSource={subscriptions} 
+                loading={loading} 
+                rowKey='_id' />
             </div>
 
             {/* Add Subscription Modal */}
@@ -158,7 +163,7 @@ const SubscriptionPage = () => {
                         </Select>
                     </Form.Item>
 
-                    <Form.Item name="cost" label="Cost (र्)" rules={[{ required: true, message: "Please enter the cost" }]}>
+                    <Form.Item name="cost" label="Cost (₹)" rules={[{ required: true, message: "Please enter the cost" }]}>
                         <Input type="number" min={0} />
                     </Form.Item>
 

@@ -113,7 +113,7 @@ const GoalPage = () => {
         <h2 className="text-xl font-bold mb-4">🎯 Goals</h2>
         <div className="flex flex-wrap gap-4">
           {goals.map((goal) => (
-            <div key={goal._id} className="bg-gray-800 p-4 rounded-lg text-white w-60 relative">
+            <div key={goal._id} className="bg-white rounded-lg shadow-lg p-4 text-black w-60 relative">
               <h3 className="text-lg font-semibold">{goal.name}</h3>
               <p>₹{goal.savedAmount.toFixed(2)} / ₹{goal.targetAmount.toFixed(2)}</p>
               <p>📅 Target Date: {goal.targetDate ? moment(goal.targetDate).format("YYYY-MM-DD") : "Not set"}</p>
@@ -121,12 +121,12 @@ const GoalPage = () => {
               <Progress percent={((goal.savedAmount / goal.targetAmount) * 100).toFixed(2)} status="active" />
 
               <div className="flex justify-between items-center mt-2">
-                <Button type="link" onClick={() => handleEditGoal(goal)}>✏️ Edit</Button>
-                <Button type="link" danger onClick={() => handleDeleteGoal(goal._id)}>🗑 Delete</Button>
+                <Button type="primary" onClick={() => handleEditGoal(goal)}>✏️ Edit</Button>
+                <Button type="primary" danger onClick={() => handleDeleteGoal(goal._id)}>🗑 Delete</Button>
               </div>
 
               <Checkbox
-                className="mt-2 text-white"
+                className="mt-2 text-black"
                 checked={goal.status === 'Completed'}
                 onChange={() => toggleGoalStatus(goal._id, goal.status)}
               >
@@ -140,7 +140,7 @@ const GoalPage = () => {
         <div className="mt-6">
           <h3 className="text-lg font-bold">⏳ Ongoing</h3>
           {goals.filter(goal => goal.status === 'Ongoing').map((goal) => (
-            <div key={goal._id} className="bg-gray-900 p-3 rounded-md flex justify-between items-center text-white mt-2">
+            <div key={goal._id} className="bg-white shadow-lg p-3 rounded-md flex justify-between items-center text-black mt-2">
               <span>{goal.name}</span>
               <span>₹{goal.targetAmount}</span>
             </div>
@@ -148,7 +148,7 @@ const GoalPage = () => {
 
           <h3 className="text-lg font-bold mt-4">✅ Completed</h3>
           {goals.filter(goal => goal.status === 'Completed').map((goal) => (
-            <div key={goal._id} className="bg-green-900 p-3 rounded-md flex justify-between items-center text-white mt-2">
+            <div key={goal._id} className="bg-green-900 shadow-lg p-3 rounded-md flex justify-between items-center text-white mt-2">
               <span>{goal.name}</span>
               <span>₹{goal.targetAmount}</span>
             </div>
