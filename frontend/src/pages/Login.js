@@ -3,6 +3,7 @@ import { Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../components/Layouts/Spinner";
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
@@ -25,19 +26,19 @@ const Login = () => {
     }
   };
 
- //prevent for login user
- useEffect(() => {
-  if (localStorage.getItem("user")) {
-    navigate("/userpage");
-  }
-}, [navigate]);
+  //prevent for login user
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      navigate("/userpage");
+    }
+  }, [navigate]);
 
   return (
     <>
       <div className="register-page">
         {loading && <Spinner />}
         <Form className="bg-white shadow-lg rounded-xl p-6" layout="vertical" onFinish={submitHandler}>
-          <h1>Login</h1>
+          <h1 className="text-xl font-bold">Login</h1>
 
           <Form.Item 
           label="Email" 
@@ -53,10 +54,9 @@ const Login = () => {
           >
             <Input type="password" />
           </Form.Item>
-          <div className="flex justify-between">
-            <Link to="/register" className="text-blue-600 hover:underline">Not a user ? Cleck Here to regsiter</Link>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded">Login</button>
-          </div>
+            <Link to="/register" className="text-blue-600 hover:underline">Not a user? Click Here to register</Link>
+          <button className="bg-blue-600 text-white py-2 px-4 rounded mt-4 mb-4 w-full">Login</button>
+          <Link to="/forgotpassword" className="text-blue-600 hover:underline">Forgot Password?</Link>
         </Form>
       </div>
     </>

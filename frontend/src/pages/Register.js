@@ -33,7 +33,7 @@ const Register = () => {
       <div className="register-page ">
         {loading && <Spinner />}
         <Form className="bg-white shadow-lg rounded-xl p-6" layout="vertical" onFinish={submitHandler}>
-          <h1>Register</h1>
+          <h1 className="text-xl font-bold">Register</h1>
           <Form.Item
             label="Name"
             name="name"
@@ -65,11 +65,8 @@ const Register = () => {
           >
             <Input type="password" />
           </Form.Item>
-
-          <div className="flex justify-between">
             <Link to="/login" className="text-blue-600 hover:underline">Already Registered? Click Here to login</Link>
-            <button className="bg-blue-600 text-white py-2 px-4 rounded">Register</button>
-          </div>
+            <button className="bg-blue-600 text-white py-2 px-4 rounded mt-4 w-full">Register</button>
         </Form>
       </div>
     </>

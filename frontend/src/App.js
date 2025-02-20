@@ -19,6 +19,7 @@ import DebtPage from './components/page/DebtPage';
 import GoalPage from './components/page/GoalPage';
 import Piechart from './components/Layouts/Piechart';
 import SubscriptionPage from './components/page/SubscriptionPage';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         {/* Public routes */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
 
         {/* Landing page route */}
         <Route

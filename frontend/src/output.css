@@ -740,6 +740,10 @@ video {
   width: 2rem;
 }
 
+.w-96 {
+  width: 24rem;
+}
+
 .w-\[10\%\] {
   width: 10%;
 }
