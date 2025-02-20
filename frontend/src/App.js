@@ -44,8 +44,6 @@ function App() {
         <Route path="/tc" element={<Tc/>} />
         <Route path="/policy" element={<Policy/>} />
 
-        
-
          {/* Protected route */}
          <Route
           path="/userpage"
@@ -59,12 +57,8 @@ function App() {
           {/* User route */}
           <Route
           path="/transactionpage" 
-          element={<TransactionPage />
-          }
-          />
-          <Route
-          path="/analytics" element={<Analytics/>}
-          />
+          element={<TransactionPage />}/>
+          <Route path="/analytics" element={<Analytics/>}/>
           <Route path="/" element={<Dashboard />} />
           <Route path='/Dashboard' element={<Dashboard/>}/>
           <Route path='/budgeting' element={<Budgeting/>}/>
@@ -73,7 +67,6 @@ function App() {
           <Route path='/debtpage' element={<DebtPage/>}/>
           <Route path='/subscriptionpage' element={<SubscriptionPage/>}/>
           
-
       </Routes>
     </>
   );
