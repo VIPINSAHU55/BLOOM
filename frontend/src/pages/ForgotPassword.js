@@ -45,7 +45,12 @@ const ForgotPassword = () => {
             label="Confirm Password" 
             name="confirmPassword"
             dependencies={["newPassword"]}
-            rules={[{ required: true, message: 'Please confirm your new password' }, ({ getFieldValue }) => ({ validator(_, value) { return value && value === getFieldValue("newPassword") ? Promise.resolve() : Promise.reject("Passwords do not match"); } })]}
+            rules={[{ required: true, message: 'Please confirm your new password' }, 
+            ({ getFieldValue }) => ({ validator(_, value) 
+              { 
+                return value && value === getFieldValue("newPassword") ? Promise.resolve() : 
+                Promise.reject("Passwords do not match"); 
+              } })]}
           >
             <Input type="password" />
           </Form.Item>

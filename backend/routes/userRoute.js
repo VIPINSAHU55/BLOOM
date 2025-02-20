@@ -15,6 +15,7 @@ router.post("/login", loginController);
 //POST || REGISTER USER
 router.post("/register", registerController);
 
+//POST || FORGOTPASSWORD USER
 router.post("/forgotpassword", forgotPasswordController);
 
 module.exports = router;

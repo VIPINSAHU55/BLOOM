@@ -1,5 +1,7 @@
 const express = require("express");
-const { addTransaction, getAllTransaction, editTransaction, deleteTransaction } = require("../controllers/transactionController");
+const { 
+    addTransaction, getAllTransaction, editTransaction, deleteTransaction 
+} = require("../controllers/transactionController");
 
 //router object
 const router = express.Router();

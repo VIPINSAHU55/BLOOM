@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from '../images/page.png';
+import Page from '../images/page2.png';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {
