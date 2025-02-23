@@ -23,7 +23,7 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
         {loading && <Spinner />}
         <Form className="bg-white shadow-lg rounded-xl p-8 w-96" layout="vertical" onFinish={submitHandler}>
           <h1 className="text-xl font-bold">Reset Password</h1>

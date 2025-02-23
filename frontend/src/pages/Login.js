@@ -35,7 +35,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="register-page">
+      <div className="register-page bg-gray-100">
         {loading && <Spinner />}
         <Form className="bg-white shadow-lg rounded-xl p-6" layout="vertical" onFinish={submitHandler}>
           <h1 className="text-xl font-bold">Login</h1>

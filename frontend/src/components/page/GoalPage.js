@@ -109,7 +109,7 @@ const GoalPage = () => {
           <Spinner />
         </div>
       )}
-      <div className="p-4">
+      <div className="p-4 bg-gray-100">
         <h2 className="text-xl font-bold mb-4">🎯 Goals</h2>
         <div className="flex flex-wrap gap-4">
           {goals.map((goal) => (

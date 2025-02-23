@@ -92,7 +92,7 @@ const DebtPage = () => {
                 <Header2 />
             </nav>
             {loading && <Spinner />}
-            <div className="p-4">
+            <div className="p-4 bg-gray-100">
                 <h2 className="text-xl font-bold mb-4">💰 Debts</h2>
 
                 <div className="flex flex-wrap gap-4 mt-4">

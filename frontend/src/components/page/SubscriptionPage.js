@@ -126,7 +126,7 @@ const SubscriptionPage = () => {
             {loading && (<div className="absolute top-10 left-1/2 transform -translate-x-1/2">
                 <Spinner />
             </div>)}
-            <div className='p-4'>
+            <div className='p-4 bg-gray-100'>
                 <Button type="primary" onClick={() => setIsModalVisible(true)} className="mb-4">
                     Add Subscription
                 </Button>
