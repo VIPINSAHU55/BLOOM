@@ -6,8 +6,8 @@ const goalSchema = new mongoose.Schema({
     targetAmount: { type: Number, required: true },
     savedAmount: { type: Number, default: 0 },
     bankAccount: { type: String },
-    targetDate: { type: Date, required: true }, // Added target date
-    category: { type: String, enum: ['Savings', 'Expense', 'Investment'], required: true }, // Added category
+    targetDate: { type: Date, required: true }, 
+    category: { type: String, enum: ['Savings', 'Expense', 'Investment'], required: true },
     status: { type: String, enum: ['Ongoing', 'Completed'], default: 'Ongoing' },
 }, { timestamps: true });
 
