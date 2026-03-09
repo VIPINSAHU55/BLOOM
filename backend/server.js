@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 app.use("/api/v1/users", require("./routes/userRoute"));
 
 app.use(cors({
-  origin: "https://bloompersonalfinance.vercel.app/",
+  origin: "https://bloompersonalfinance.vercel.app",
   credentials: true
 }));
 
