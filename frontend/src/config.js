@@ -1,0 +1,1 @@
+export const API_URL = "https://bloom-q4l6.onrender.com";
