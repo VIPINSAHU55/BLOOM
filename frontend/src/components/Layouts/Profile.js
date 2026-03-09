@@ -50,7 +50,7 @@ const Profile = () => {
         {
             key: '2',
             label: <span onClick={showDrawer}>Profile</span>,
-            icon: <AiOutlineProfile/>
+            icon: <AiOutlineProfile />
         },
         {
             key: '3',
@@ -60,7 +60,7 @@ const Profile = () => {
                 </span>
             ),
             onClick: logoutHandler,
-            icon: <AiOutlineLogout/>
+            icon: <AiOutlineLogout />
         },
     ];
 
@@ -68,29 +68,29 @@ const Profile = () => {
     return (
         <nav>
             {/* Desktop Buttons */}
-                    <Dropdown
-                        menu={{
-                            items,
-                        }}
-                    >
-                        <a onClick={(e) => e.preventDefault()}>
-                            <Space>
-                                <img className='h-12 w-12 hover:bg-gray-500 rounded-full' src={userImage} alt='User' /> {/* User profile icon */}
-                            </Space>
-                        </a>
-                    </Dropdown>
+            <Dropdown
+                menu={{
+                    items,
+                }}
+            >
+                <button onClick={(e) => e.preventDefault()} style={{ border: "none", background: "none", padding: 0 }}>
+                    <Space>
+                        <img className='h-12 w-12 hover:bg-gray-500 rounded-full' src={userImage} alt='User' />
+                    </Space>
+                </button>
+            </Dropdown>
 
-                    {/* Drawer for Profile */}
-                    <Drawer
-                        title="User Profile"
-                        placement="right"
-                        onClose={closeDrawer}
-                        open={isDrawerVisible}
-                    >
-                        <p><strong>Username:</strong> {loginUser && loginUser.name}</p>
-                        <p><strong>Email:</strong> {loginUser && loginUser.email}</p>
-                        <p><strong>Mobile Number:</strong> {loginUser && loginUser.tel}</p>
-                    </Drawer>
+            {/* Drawer for Profile */}
+            <Drawer
+                title="User Profile"
+                placement="right"
+                onClose={closeDrawer}
+                open={isDrawerVisible}
+            >
+                <p><strong>Username:</strong> {loginUser && loginUser.name}</p>
+                <p><strong>Email:</strong> {loginUser && loginUser.email}</p>
+                <p><strong>Mobile Number:</strong> {loginUser && loginUser.tel}</p>
+            </Drawer>
         </nav>
     )
 }

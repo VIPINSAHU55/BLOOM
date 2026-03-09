@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form, Input, message, Progress, Checkbox, DatePicker, Select } from 'antd';
+import { Button, Modal, Form, Input, message, Progress, DatePicker, Select } from 'antd';
 import axios from 'axios';
 import Header2 from '../Layouts/Header2';
 import Spinner from "../Layouts/Spinner";
