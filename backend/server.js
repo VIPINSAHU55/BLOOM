@@ -17,7 +17,11 @@ const app = express();
 // middlewares
 app.use(morgan("dev"));
 app.use(express.json()); // express.json() parses that data and makes it available in req.body.
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: "https://bloompersonalfinance.vercel.app",
+  credentials: true
+}));
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Bloom Personal Finance Management API');
@@ -26,11 +30,6 @@ app.get('/', (req, res) => {
 // routes
 // user route
 app.use("/api/v1/users", require("./routes/userRoute"));
-
-app.use(cors({
-  origin: "https://bloompersonalfinance.vercel.app",
-  credentials: true
-}));
 
 // transactions routes
 app.use("/api/v1/transactions", require("./routes/transactionRoutes"));
